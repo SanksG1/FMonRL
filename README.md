@@ -1,13 +1,26 @@
-# MyProject
+sudo apt update
+sudo apt install -y curl git build-essential
+sudo apt install -y clang
 
-## GitHub configuration
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+(when prompted just choose the default stable option)
+source ~/.profile
+Verify with:
+lean --version
+lake --version
 
-To set up your new GitHub repository, follow these steps:
+Install VsCode, then go to extensions and search for Lean 4. leanprover.lean4 should be the extension, and then restart.
 
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
+Create a new project with mathlib:
+mkdir -p ~/lean-projects
+cd ~/lean-projects
+lake new MyProject math
+cd MyProject
+lake exe cache get
+lake build
 
-After following the steps above, you can remove this section from the README file.
+And then open in vscode
+code .
+
+Make a test file:
+touch MyProject/Test.lean
