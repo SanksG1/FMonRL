@@ -165,12 +165,12 @@ variable (M : MDP)
 local notation "S" => M.S
 
 /-
-Step 1 (analogue of your V-case):
+Step 1 (analogue of V-case):
 Prove the “max over actions” is 1-Lipschitz w.r.t. sup norm on SA → ℝ.
 
-You’ll likely want lemmas of the form:
+Want lemmas of the form:
   |sup f - sup g| ≤ sup |f-g|
-over a nonempty finset (same pattern you used in `Topt_is_contraction`).
+over a nonempty finset (same pattern used in `Topt_is_contraction`).
 -/
 lemma nextMax'_diff_le (Q R : QSpace (M := M)) (s : S) :
   |nextMax' (M := M) Q s - nextMax' (M := M) R s|
@@ -186,10 +186,10 @@ lemma nextMax'_diff_le (Q R : QSpace (M := M)) (s : S) :
 
 /-
 Step 2:
-Bound the expectation difference using your existing lemma `expVal_diff_le_sup`,
+Bound the expectation difference using existing lemma `expVal_diff_le_sup`,
 but note we are applying expVal to a function on S:
   s' ↦ nextMax' Q s'
-so we can reuse your V-space expectation lemma with V/W = these functions.
+so we can reuse V-space expectation lemma with V/W = these functions.
 -/
 lemma exp_nextMax_diff_le_sup (Q R : QSpace (M := M)) (p : PMF S) :
   |expVal M (fun s' => nextMax' (M := M) Q s') p
@@ -210,7 +210,7 @@ lemma exp_nextMax_diff_le_sup (Q R : QSpace (M := M)) (p : PMF S) :
 /-
 Step 3:
 Show Tq is γ-Lipschitz (contraction) in sup metric on QSpace.
-This mirrors your `Topt_is_contraction`.
+This mirrors `Topt_is_contraction`.
 -/
 theorem Tq_is_contraction :
   IsContraction (X := QSpace (M := M)) (T := Tq (M := M)) (γ := M.γ) := by
@@ -259,7 +259,7 @@ where
   target_t = r_t + γ * max_{a'} Q_t(s_{t+1},a')
 and other coordinates unchanged.
 
-This is the object you’ll use to relate the recursion to the Bellman operator Tq.
+This is the object used to relate the recursion to the Bellman operator Tq.
 -/
 
 open scoped Classical
@@ -278,7 +278,7 @@ noncomputable def qLearnStep
 
 /-
 A “trajectory” / “sample stream” can be represented many ways.
-For a minimal skeleton: assume you are given sequences:
+For a minimal skeleton: assume given sequences:
   sa_t : ℕ → SA
   r_t  : ℕ → ℝ
   s'_t : ℕ → S
@@ -304,7 +304,7 @@ variable (M : MDP)
 local notation "QSpace" => QSpace (M := M)
 
 /-
-This section is the “proof plan” you described:
+Proof Plan:
 
 (1) Rewrite update as:
     Q_{t+1}(sa_t) = (1-α_t) Q_t(sa_t) + α_t ( (Tq Q_t)(sa_t) + noise_t )
@@ -312,7 +312,7 @@ This section is the “proof plan” you described:
 (3) Apply an asynchronous stochastic approximation theorem for contractions.
 (4) Conclude Q_t → Q* (a.s. / in probability / etc).
 
-We keep everything as placeholders so you can fill in with Mathlib later.
+Fill in with Mathlib later.
 -/
 
 /-- Robbins–Monro step-size condition at each visited coordinate (placeholder). -/
@@ -333,7 +333,7 @@ def Noise (Q : QSpace) (ω : SampleStream M) (t : ℕ) : ℝ :=
 
 /-
 Key lemma skeleton: “mean update equals Bellman operator”.
-This is where you connect the conditional expectation of the sample target to `(Tq Q_t)(sa_t)`.
+This is to connect the conditional expectation of the sample target to `(Tq Q_t)(sa_t)`.
 -/
 lemma condExp_target_eq_Tq (Q : QSpace) (ω : SampleStream M) (t : ℕ) :
   True := by
@@ -350,7 +350,6 @@ lemma noise_martingaleDiff (Q : QSpace) (ω : SampleStream M) :
 
 /-
 Asynchronous SA convergence theorem: placeholder.
-You’ll either:
 - use an existing Mathlib theorem (if available), or
 - port a theorem specialized to contractions,
 - or prove a bespoke contraction-based SA lemma.
@@ -379,14 +378,6 @@ end ConvergenceSkeleton
 end QLearning
 end MDP
 
-
-/-!
-============================================================
-Paper-aligned skeleton (arXiv:2108.02827)
-These are placeholders intended to match the proof structure
-of the paper. Most difficult statements are left as `sorry`.
-============================================================
--/
 
 namespace MDP
 namespace QLearning
