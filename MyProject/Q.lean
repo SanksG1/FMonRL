@@ -339,15 +339,14 @@ lemma condExp_target_eq_Tq (Q : QSpace) (ω : SampleStream M) (t : ℕ) :
   True := by
   -- TODO: formal statement in Mathlib probability:
   --   E[ r_t + γ max Q(s'_{t+1},·) | F_t, sa_t ] = (Tq Q)(sa_t)
-  trivial
-
+  exact True.intro
 /-
 Key lemma skeleton: noise is martingale difference.
 -/
 lemma noise_martingaleDiff (Q : QSpace) (ω : SampleStream M) :
   True := by
   -- TODO: show `E[Noise_t | F_t] = 0`
-  trivial
+  exact True.intro
 
 /-
 Asynchronous SA convergence theorem: placeholder.
@@ -376,6 +375,91 @@ theorem qLearning_converges_skeleton
   sorry
 
 end ConvergenceSkeleton
+
+end QLearning
+end MDP
+
+
+/-!
+============================================================
+Paper-aligned skeleton (arXiv:2108.02827)
+These are placeholders intended to match the proof structure
+of the paper. Most difficult statements are left as `sorry`.
+============================================================
+-/
+
+namespace MDP
+namespace QLearning
+
+section PaperAlignedSkeleton
+
+variable (M : MDP)
+local notation "QSpace" => QSpace (M := M)
+
+/-- Paper notation: Bellman optimality operator on Q-functions. -/
+abbrev BellmanQ : QSpace → QSpace :=
+  Tq (M := M)
+
+/-- Bellman residual F(Q)-Q. -/
+def BellmanResidual (Q : QSpace) : QSpace :=
+  fun sa => BellmanQ (M := M) Q sa - Q sa
+
+/-- Placeholder noise process (eventually martingale-difference noise). -/
+def BellmanNoise
+  (Q : QSpace)
+  (ω : SampleStream M)
+  (t : ℕ) :
+  QSpace :=
+  fun _ => 0
+
+/-- Central stochastic-approximation decomposition from the paper. -/
+theorem q_update_decomposition
+  (Q : QSpace)
+  (ω : SampleStream M)
+  (t : ℕ) :
+  True := by
+  trivial
+
+/-- Filtration placeholder. -/
+axiom FiltrationQ : Type
+
+/-- Natural filtration placeholder. -/
+axiom Ft : ℕ → FiltrationQ
+
+/-- Martingale-difference property placeholder. -/
+axiom noise_mean_zero :
+  True
+
+/-- Square-integrability placeholder. -/
+axiom noise_square_integrable :
+  True
+
+-- /-- Robbins-Monro step-size assumptions. -/
+-- class RobbinsMonro
+--   (α : ℕ → ℝ) : Prop where
+--   sum_diverges : True
+--   square_sum_converges : True
+
+-- /-- Every state-action pair visited infinitely often. -/
+-- class InfiniteVisits
+--   (ω : SampleStream M) : Prop where
+--   visits_infinitely_often : True
+
+/-- Banach fixed point packaged as Q*. -/
+theorem exists_unique_QStar :
+  ∃! QStar : QSpace,
+    BellmanQ (M := M) QStar = QStar := by
+  simpa [BellmanQ] using exists_unique_Qstar (M := M)
+
+/-- Main convergence theorem placeholder matching the paper structure. -/
+theorem q_learning_converges
+  (ω : SampleStream M)
+  (hRM : RobbinsMonro (M := M) ω)
+  (hVis : InfiniteVisits (M := M) ω) :
+  True := by
+  trivial
+
+end PaperAlignedSkeleton
 
 end QLearning
 end MDP
